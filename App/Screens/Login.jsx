@@ -26,18 +26,6 @@ export default function Login({ navigation }) {
     return emailRegex.test(text);
   };
 
-  //   useEffect(() => {
-  //     console.log("Email: ", email);
-  //     console.log("Password: ", password);
-  //   }, [email, password]);
-
-  //   useEffect(() => {
-  //     (async () =>
-  //       await Font.loadAsync({
-  //         Roboto_Medium: require("E:/Study Materials/3.2/Android Project/doctor-appointment/Styles/fonts/Roboto-Medium.ttf"),
-  //       }))();
-  //   }, []);
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 25 }}>
@@ -95,13 +83,14 @@ export default function Login({ navigation }) {
         <CustomButton
           label={"Login"}
           onPress={() => {
-            if (!isEmailValid(email)) {
-              alert("Enter Varsity Email ID");
-              return;
-            }
-            console.log("Login button pressed");
-            console.log("Email: " + email);
-            console.log("Password: " + password);
+            navigation.navigate("Tab");
+            // if (!isEmailValid(email)) {
+            //   alert("Enter Varsity Email ID");
+            //   return;
+            // }
+            // console.log("Login button pressed");
+            // console.log("Email: " + email);
+            // console.log("Password: " + password);
           }}
         />
 
@@ -128,7 +117,7 @@ export default function Login({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
   },

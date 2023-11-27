@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import TabNavigation from "./App/Navigations/TabNavigation";
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar hidden />
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
@@ -49,12 +51,12 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="Tab"
+          component={TabNavigation}
           options={{
-            headerTitle: "Home",
             headerStyle: { backgroundColor: "#fff" },
             headerShadowVisible: false,
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
@@ -65,7 +67,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    // backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
