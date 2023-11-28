@@ -33,7 +33,7 @@ const TabNavigation = ({ navigation }) => {
         component={Appointment}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <FontAwesome name="stethoscope" size={24} color="black" />
+            <FontAwesome name="stethoscope" size={size} color={color} />
           ),
         }}
       />

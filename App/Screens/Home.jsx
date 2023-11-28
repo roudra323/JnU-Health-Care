@@ -8,6 +8,7 @@ const Home = ({ navigation }) => {
   const handleButtonPress = () => {
     // Add your logic for the button press action
     console.log("Button pressed!");
+    navigation.navigate("Form");
   };
 
   return (

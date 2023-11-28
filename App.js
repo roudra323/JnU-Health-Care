@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { Login, Registration, Home } from "./App/Screens/index";
+import { Login, Registration, Form } from "./App/Screens/index";
 // import Login from "./App/Screens/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -53,6 +53,16 @@ export default function App() {
         <Stack.Screen
           name="Tab"
           component={TabNavigation}
+          options={{
+            headerStyle: { backgroundColor: "#fff" },
+            headerShadowVisible: false,
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="Form"
+          component={Form}
           options={{
             headerStyle: { backgroundColor: "#fff" },
             headerShadowVisible: false,
