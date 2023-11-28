@@ -33,7 +33,7 @@ export default function Login({ navigation }) {
   const showAlert = (type, message) => {
     setAlert({ type, message });
     setTimeout(() => {
-      setAlert(null);
+      setAlert(false);
     }, 3000); // Hide the alert after 3 seconds
   };
 
