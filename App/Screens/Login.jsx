@@ -17,6 +17,7 @@ import InputField from "../Components/InputField";
 import LoginSVG from "../../assets/login.svg";
 import TestImg from "../../assets/login.jpg";
 import client from "../api/client";
+import Alert from "../Components/Alert";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -27,33 +28,54 @@ export default function Login({ navigation }) {
     return emailRegex.test(text);
   };
 
+  const [alert, setAlert] = useState(false);
+
+  const showAlert = (type, message) => {
+    setAlert({ type, message });
+    setTimeout(() => {
+      setAlert(null);
+    }, 3000); // Hide the alert after 3 seconds
+  };
+
   const loginData = async () => {
     try {
       // Validate email and password
       if (!email || !password) {
-        console.log("Please enter both email and password");
+        showAlert("danger", "Please enter both email and password");
         return;
       }
-  
+      if (!isEmailValid(email)) {
+        alert("Enter Varsity Email ID");
+        return;
+      }
+
       // Make the POST request
-      const res = await client.post('/auth/login', {
+      const res = await client.post("/auth/login", {
         email: email,
         password: password,
       });
-  
+
       // Check the response status or data for successful login
       if (res.status === 200) {
         console.log("Login successful");
-        navigation.navigate("Tab");
+        showAlert("success", "Login successful");
+        setTimeout(() => {
+          navigation.navigate("Tab");
+        }, 500); // Add a small delay before navigation
       } else {
         console.log("Login failed. Please check your credentials.");
+        showAlert("danger", "Login failed. Please check your credentials.");
       }
     } catch (error) {
+      showAlert("danger", error.response.data.error);
       // Handle specific error cases
       if (error.response) {
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log("Server responded with an error:", error.response.data.error);
+        console.log(
+          "Server responded with an error:",
+          error.response.data.error
+        );
       } else if (error.request) {
         // The request was made but no response was received
         console.log("No response received from the server");
@@ -63,7 +85,6 @@ export default function Login({ navigation }) {
       }
     }
   };
-  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -114,15 +135,12 @@ export default function Login({ navigation }) {
           }
           inputType="password"
           fieldButtonLabel={"Forgot?"}
-          fieldButtonFunction={() => { }}
+          fieldButtonFunction={() => {}}
           value={password}
           onChangeText={(password) => setPassword(password)}
         />
 
-        <CustomButton
-          label={"Login"}
-          onPress={loginData}
-        />
+        <CustomButton label={"Login"} onPress={loginData} />
 
         <View
           style={{
@@ -140,6 +158,7 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
       </View>
+      {alert && <Alert type={alert.type} message={alert.message} />}
     </SafeAreaView>
   );
 }
