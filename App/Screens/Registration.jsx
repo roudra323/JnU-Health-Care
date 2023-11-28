@@ -18,6 +18,8 @@ import CustomButton from "../Components/CustomButton";
 import InputField from "../Components/InputField";
 import LoginSVG from "../../assets/login.svg";
 import TestImg from "../../assets/login.jpg";
+import client from "../api/client";
+
 
 export default function Registration({ navigation }) {
   const [email, setEmail] = useState("");
@@ -36,6 +38,26 @@ export default function Registration({ navigation }) {
   const isEmailValid = (text) => {
     return emailRegex.test(text);
   };
+
+
+  const signUp = async function () {
+    if (!isEmailValid(email)) {
+      alert("Enter Varsity Email ID");
+      return;
+    }
+    console.log("Registration button pressed");
+    await client.post('/auth/signup', {
+      "name": name,
+      "phone": phone,
+      "presentAddress": presentAddress,
+      "dept": dept,
+      "batch": batch,
+      "bloodGroup": blood,
+      "email": email,
+      "password": password,
+    });
+    navigation.navigate("Login");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -181,24 +203,17 @@ export default function Registration({ navigation }) {
               />
             }
             inputType="password"
-            fieldButtonFunction={() => {}}
+            fieldButtonFunction={() => { }}
             value={password}
             onChangeText={(password) => setPassword(password)}
             required={true}
           />
 
+
+
           <CustomButton
             label={"Register"}
-            onPress={() => {
-              if (!isEmailValid(email)) {
-                alert("Enter Varsity Email ID");
-                return;
-              }
-              console.log("Registration button pressed");
-              console.log("Email: " + email);
-              console.log("Password: " + password);
-              navigation.navigate("Login");
-            }}
+            onPress={signUp}
           />
         </View>
       </ScrollView>
