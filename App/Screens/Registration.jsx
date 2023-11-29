@@ -1,37 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   SafeAreaView,
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   Image,
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { Colours } from "../../assets/Shared";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Fontisto } from "@expo/vector-icons";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import * as Font from "expo-font";
-import CustomButton from "../Components/CustomButton";
 import InputField from "../Components/InputField";
-import LoginSVG from "../../assets/login.svg";
+import CustomButton from "../Components/CustomButton";
 import TestImg from "../../assets/login.jpg";
 import client from "../api/client";
-
+import Toast from "react-native-toast-message";
 
 export default function Registration({ navigation }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [presentAddress, setPresentAddress] = useState("");
   const [dept, setDept] = useState("");
   const [batch, setBatch] = useState("");
   const [blood, setBlood] = useState("");
-  const [dob, setdob] = useState("");
-  const [id, setId] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const emailRegex = /^([\w.]+)@([\w.]+)\.jnu\.ac\.bd$/;
 
@@ -39,25 +32,60 @@ export default function Registration({ navigation }) {
     return emailRegex.test(text);
   };
 
+  const showAlert = (type, message) => {
+    console.log("Alert:", type, message);
+
+    Toast.show({
+      type: type,
+      text1: type === "success" ? "Success" : "Error",
+      text2: message,
+    });
+  };
 
   const signUp = async function () {
-    if (!isEmailValid(email)) {
-      alert("Enter Varsity Email ID");
+    // Additional checks for empty fields
+    if (
+      !name ||
+      !phone ||
+      !presentAddress ||
+      !dept ||
+      !batch ||
+      !blood ||
+      !email ||
+      !password
+    ) {
+      showAlert("error", "Please fill in all the fields");
       return;
     }
-    console.log("Registration button pressed");
-    await client.post('/auth/signup', {
-      "name": name,
-      "phone": phone,
-      "presentAddress": presentAddress,
-      "dept": dept,
-      "batch": batch,
-      "bloodGroup": blood,
-      "email": email,
-      "password": password,
-    });
-    navigation.navigate("Login");
-  }
+
+    if (!isEmailValid(email)) {
+      showAlert("error", "Enter Varsity Email ID");
+      return;
+    }
+    try {
+      console.log("Registration button pressed");
+      const res = await client.post("/auth/signup", {
+        name,
+        phone,
+        presentAddress,
+        dept,
+        batch,
+        bloodGroup: blood,
+        email,
+        password,
+      });
+
+      if (res.status === 200) {
+        showAlert("success", "Registration successful");
+        navigation.navigate("Login");
+      } else {
+        showAlert("error", "Registration failed. Please try again.");
+      }
+    } catch (error) {
+      showAlert("error", "Registration failed. Please try again.");
+      console.error("Error during registration:", error.message);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -203,18 +231,13 @@ export default function Registration({ navigation }) {
               />
             }
             inputType="password"
-            fieldButtonFunction={() => { }}
+            fieldButtonFunction={() => {}}
             value={password}
             onChangeText={(password) => setPassword(password)}
             required={true}
           />
 
-
-
-          <CustomButton
-            label={"Register"}
-            onPress={signUp}
-          />
+          <CustomButton label={"Register"} onPress={signUp} />
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { Login, Registration, Form } from "./App/Screens/index";
-// import Login from "./App/Screens/Login";
+import Toast from "react-native-toast-message";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,48 +29,51 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StatusBar hidden />
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{
-            headerTitle: "",
-            headerStyle: { backgroundColor: "#fff" },
-            headerShadowVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="Regi"
-          component={Registration}
-          options={{
-            headerTitle: "Back to Login",
-            headerStyle: { backgroundColor: "#fff" },
-            headerShadowVisible: false,
-          }}
-        />
-        <Stack.Screen
-          name="Tab"
-          component={TabNavigation}
-          options={{
-            headerStyle: { backgroundColor: "#fff" },
-            headerShadowVisible: false,
-            headerShown: false,
-          }}
-        />
+    <>
+      <NavigationContainer>
+        <StatusBar hidden />
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{
+              headerTitle: "",
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Regi"
+            component={Registration}
+            options={{
+              headerTitle: "Back to Login",
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+            }}
+          />
+          <Stack.Screen
+            name="Tab"
+            component={TabNavigation}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
 
-        <Stack.Screen
-          name="Form"
-          component={Form}
-          options={{
-            headerStyle: { backgroundColor: "#fff" },
-            headerShadowVisible: false,
-            headerShown: false,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+          <Stack.Screen
+            name="Form"
+            component={Form}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <Toast />
+    </>
   );
 }
 

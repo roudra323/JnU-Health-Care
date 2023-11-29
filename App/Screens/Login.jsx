@@ -17,7 +17,8 @@ import InputField from "../Components/InputField";
 import LoginSVG from "../../assets/login.svg";
 import TestImg from "../../assets/login.jpg";
 import client from "../api/client";
-import Alert from "../Components/Alert";
+
+import Toast from "react-native-toast-message";
 
 export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
@@ -28,20 +29,23 @@ export default function Login({ navigation }) {
     return emailRegex.test(text);
   };
 
-  const [alert, setAlert] = useState(false);
+  const [alert, setAlert] = useState(null);
 
   const showAlert = (type, message) => {
-    setAlert({ type, message });
-    setTimeout(() => {
-      setAlert(false);
-    }, 3000); // Hide the alert after 3 seconds
+    console.log("Alert:", type, message);
+
+    Toast.show({
+      type: type,
+      text1: type === "success" ? "Success" : "Error",
+      text2: message,
+    });
   };
 
   const loginData = async () => {
     try {
       // Validate email and password
       if (!email || !password) {
-        showAlert("danger", "Please enter both email and password");
+        showAlert("error", "Please enter both email and password");
         return;
       }
       if (!isEmailValid(email)) {
@@ -64,10 +68,10 @@ export default function Login({ navigation }) {
         }, 500); // Add a small delay before navigation
       } else {
         console.log("Login failed. Please check your credentials.");
-        showAlert("danger", "Login failed. Please check your credentials.");
+        showAlert("error", "Login failed. Please check your credentials.");
       }
     } catch (error) {
-      showAlert("danger", error.response.data.error);
+      showAlert("error", error.response.data.error);
       // Handle specific error cases
       if (error.response) {
         // The request was made and the server responded with a status code
