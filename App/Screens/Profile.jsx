@@ -97,8 +97,11 @@ const Profile = ({ navigation }) => {
             value={editedValue}
             onChangeText={(text) => setEditedValue(text)}
           />
-          <Button title="Save" onPress={saveEditedValue} />
-          <Button title="Cancel" onPress={closeEditModal} />
+
+          <View style={styles.buttonContainer}>
+            <Button title="Save" onPress={saveEditedValue} />
+            <Button title="Cancel" onPress={closeEditModal} />
+          </View>
         </View>
       </Modal>
     </View>
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     color: "#666",
   },
   modalContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -156,6 +159,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
     paddingHorizontal: 10,
+    backgroundColor: "#fff",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "40%",
   },
 });
 export default Profile;

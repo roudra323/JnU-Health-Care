@@ -44,7 +44,7 @@ const CounselingForm = () => {
       checked: false,
     },
     {
-      name: "ধুমপান/মাদক গ্রহণের অনাস আছে",
+      name: "ধুমপান/মাদক গ্রহণের অভ্যাস আছে",
       checked: false,
     },
     {
@@ -72,7 +72,7 @@ const CounselingForm = () => {
       checked: false,
     },
     {
-      name: "পরীক্ষাীতি",
+      name: "পরীক্ষা ভীতি",
       checked: false,
     },
     {
@@ -104,7 +104,7 @@ const CounselingForm = () => {
       checked: false,
     },
     {
-      name: "Others",
+      name: "অন্যান্য",
       checked: false,
     },
   ]);
@@ -232,7 +232,7 @@ const CounselingForm = () => {
       problems: problems
         .filter((problem) => problem.checked)
         .map((problem) =>
-          problem.name === "Others" ? otherProblem : problem.name
+          problem.name === "অন্যান্য" ? otherProblem : problem.name
         ),
       counselingType: counselingType
         .filter((type) => type.checked)
@@ -324,7 +324,7 @@ const CounselingForm = () => {
             <Text style={styles.checkboxText} editable={false}>
               {problem.name}
             </Text>
-            {problem.name === "Others" && problem.checked && (
+            {problem.name === "অন্যান্য" && problem.checked && (
               <TextInput
                 style={[styles.input, styles.otherProblemInput]}
                 placeholder="Describe other problem"
