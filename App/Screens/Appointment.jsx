@@ -4,7 +4,7 @@ import React from "react";
 const Appointment = ({ navigation }) => {
   return (
     <View>
-      <Text>Appointment</Text>
+      <Text>Pending Appointments</Text>
     </View>
   );
 };

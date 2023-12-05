@@ -12,9 +12,15 @@ const TabNavigation = ({ navigation }) => {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle: {
-          paddingBottom: 8,
-          paddingTop: 5,
+          paddingTop: 7,
           borderBlockColor: "#000",
+          borderTopLeftRadius: 24,
+          borderTopRightRadius: 24,
+          borderLeftWidth: 0.7,
+          borderRightWidth: 0.7,
+          borderTopWidth: 0.7,
+          position: "absolute",
+          overflow: "hidden",
         },
         headerShown: false,
       }}

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "doctor-appointment",
-    "slug": "doctor-appointment",
+    "slug": "healthapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee64b7e6-5600-4de0-a315-b8ada35994a0"
+      }
+    },
+    "owner": "roudra323"
   }
 }
