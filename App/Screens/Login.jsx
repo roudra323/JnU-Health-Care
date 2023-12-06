@@ -94,13 +94,10 @@ export default function Login({ navigation }) {
     <SafeAreaView style={styles.container}>
       <View style={{ paddingHorizontal: 25 }}>
         <View style={{ alignItems: "center", paddingBottom: 60 }}>
-          <Image
-            source={TestImg} // Replace 'YourImage' with the variable name you used in the import statement
-            style={{ width: 350, height: 200 }} // You can adjust the width and height as needed
-          />
+          <Image source={TestImg} style={{ width: 350, height: 200 }} />
           <Text
             style={{
-              fontFamily: "RMedium",
+              fontFamily: "HindiSili",
               fontSize: 28,
               fontWeight: "500",
               color: "#333",
@@ -108,12 +105,12 @@ export default function Login({ navigation }) {
               paddingTop: 50,
             }}
           >
-            Login
+            লগইন
           </Text>
         </View>
 
         <InputField
-          label={"Email ID"}
+          label={"ইমেইল"}
           icon={
             <MaterialIcons
               name="alternate-email"
@@ -128,7 +125,7 @@ export default function Login({ navigation }) {
         />
 
         <InputField
-          label={"Password"}
+          label={"পাসওয়ার্ড"}
           icon={
             <Ionicons
               name="ios-lock-closed-outline"
@@ -138,13 +135,13 @@ export default function Login({ navigation }) {
             />
           }
           inputType="password"
-          fieldButtonLabel={"Forgot?"}
+          fieldButtonLabel={"ভুলে গিয়েছেন?"}
           fieldButtonFunction={() => {}}
           value={password}
           onChangeText={(password) => setPassword(password)}
         />
 
-        <CustomButton label={"Login"} onPress={loginData} />
+        <CustomButton label={"লগইন"} onPress={loginData} />
 
         <View
           style={{
@@ -153,16 +150,15 @@ export default function Login({ navigation }) {
             marginBottom: 30,
           }}
         >
-          <Text>New to the app?</Text>
+          <Text>আপনি কি নতুন ব্যবহারকারী?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Regi")}>
-            <Text style={{ color: "#AD40AF", fontWeight: "700" }}>
+            <Text style={{ color: "#2955c6", fontWeight: "700" }}>
               {" "}
-              Register
+              রেজিস্ট্রেশন করুন
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      {alert && <Alert type={alert.type} message={alert.message} />}
     </SafeAreaView>
   );
 }

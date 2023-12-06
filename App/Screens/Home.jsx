@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   ScrollView,
+  Alert,
 } from "react-native";
 import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
@@ -15,12 +16,30 @@ import { Fontisto } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import Wave from "../../assets/waveHome.png";
-
+import DoctorCard from "../Components/DoctorCard";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useFonts } from "expo-font";
 const Home = ({ navigation }) => {
   const [isListExpanded, setIsListExpanded] = useState(false);
   const toggleList = () => {
     setIsListExpanded(!isListExpanded);
   };
+
+  const dummyDoctorData = [
+    {
+      id: 1,
+      doctorInfo: "Dr. Smith",
+      subText: "December 10, 2023",
+      doctorImage: require("../../assets/doctor.jpg"),
+    },
+    {
+      id: 2,
+      doctorInfo: "Dr. Johnson",
+      subText: "December 15, 2023",
+      doctorImage: require("../../assets/doctor.jpg"),
+    },
+    // Add more dummy data as needed
+  ];
 
   return (
     <ScrollView style={styles.container}>
@@ -32,42 +51,67 @@ const Home = ({ navigation }) => {
         </ImageBackground>
         {isListExpanded && <Expand />}
         <View style={{ paddingTop: 20 }}>
-          <Text style={styles.headerText}>Hi John,</Text>
-          <Text style={styles.subtext}>Welcome to JnU Counseling Center</Text>
+          <Text style={styles.headerText}>শুভ সকাল</Text>
+          <Text style={styles.subtext}>
+            জবি কাউন্সিলিং সেন্টার এ আপনাকে স্বাগতম
+          </Text>
 
           <View style={styles.boxContainer}>
-            <TouchableOpacity>
-              <View style={styles.box}>
-                <MaterialCommunityIcons
-                  name="book-clock"
-                  size={40}
-                  color="black"
-                />
-                <Text style={styles.boxText}>Book Appointment</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style={styles.box}>
-                <Fontisto name="doctor" size={40} color="black" />
-                <Text style={styles.boxText}>Doctor Information</Text>
-              </View>
-            </TouchableOpacity>
+            <View
+              style={styles.box}
+              onStartShouldSetResponder={() => navigation.navigate("Regi")}
+            >
+              <MaterialCommunityIcons
+                name="book-clock"
+                size={40}
+                color="black"
+              />
+              <Text style={styles.boxText}>Book Appointment</Text>
+            </View>
+
+            <View
+              style={styles.box}
+              onStartShouldSetResponder={() =>
+                navigation.navigate("DoctorList")
+              }
+            >
+              <Fontisto name="doctor" size={40} color="black" />
+              <Text style={styles.boxText}>Doctor Information</Text>
+            </View>
           </View>
 
           <View style={styles.boxContainer}>
-            <TouchableOpacity>
-              <View style={styles.box}>
-                <MaterialIcons name="article" size={40} color="black" />
-                <Text style={styles.boxText}>Articles</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <View style={styles.box}>
-                <Feather name="phone-forwarded" size={40} color="black" />
-                <Text style={styles.boxText}>Contact Us</Text>
-              </View>
-            </TouchableOpacity>
+            <View
+              style={styles.box}
+              onStartShouldSetResponder={() => navigation.navigate("Article")}
+            >
+              <MaterialIcons name="article" size={40} color="black" />
+              <Text style={styles.boxText}>Articles</Text>
+            </View>
+
+            <View
+              style={styles.box}
+              onStartShouldSetResponder={() =>
+                Alert.alert("OnPress", "Clicked on View")
+              }
+            >
+              <Feather name="phone-forwarded" size={40} color="black" />
+              <Text style={styles.boxText}>Contact Us</Text>
+            </View>
           </View>
+        </View>
+        <View style={{ marginBottom: 50 }}>
+          <Text style={styles.subtext}>Upcoming Appointments</Text>
+
+          {/* Map through the dummy doctor data and render DoctorCard components */}
+          {dummyDoctorData.map((doctor) => (
+            <DoctorCard
+              key={doctor.id}
+              doctorInfo={doctor.doctorInfo}
+              subText={doctor.subText}
+              doctorImage={doctor.doctorImage}
+            />
+          ))}
         </View>
       </View>
     </ScrollView>
@@ -95,15 +139,16 @@ const styles = StyleSheet.create({
   headerText: {
     marginTop: 10,
     fontSize: 40,
-    fontWeight: "bold",
     color: "#333",
     paddingLeft: 20,
+    fontFamily: "HindiSili",
   },
   subtext: {
     fontSize: 18,
     color: "#555",
     marginTop: 10,
     paddingLeft: 20,
+    fontFamily: "HindiSili",
   },
   boxContainer: {
     flexDirection: "row",
@@ -133,6 +178,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#333",
+    fontFamily: "HindiSili",
   },
 });
 
@@ -161,7 +207,7 @@ export default Home;
 //         {/* Button */}
 //         <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
 //           <Text style={styles.buttonText}>Book Now</Text>
-//         </TouchableOpacity>
+//
 //       </View>
 //     </View>
 //   );

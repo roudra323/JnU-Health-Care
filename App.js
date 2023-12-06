@@ -10,27 +10,31 @@ import { useCallback } from "react";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import TabNavigation from "./App/Navigations/TabNavigation";
+import Articles from "./App/Screens/Articles";
+import DoctorsScreen from "./App/Screens/Doctors";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
     RMedium: require("./assets/fonts/Roboto-Medium.ttf"),
+    HindiSili: require("./assets/fonts/HindSiliguri-Regular.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
-      await SplashScreen.hideAsync();
+      await SplashScreen.preventAutoHideAsync();
     }
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
+    console.log("Not Loaded");
     return null;
   }
 
   return (
     <>
-      <NavigationContainer>
+      <NavigationContainer onLayout={onLayoutRootView}>
         <StatusBar hidden />
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen
@@ -64,6 +68,24 @@ export default function App() {
           <Stack.Screen
             name="Form"
             component={Form}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Article"
+            component={Articles}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="DoctorList"
+            component={DoctorsScreen}
             options={{
               headerStyle: { backgroundColor: "#fff" },
               headerShadowVisible: false,
