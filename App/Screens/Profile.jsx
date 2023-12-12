@@ -101,9 +101,7 @@ const Profile = ({ id }) => {
         // Make the GET request to fetch user data
         const res = await client.get(`/profile/${id}`);
         setUserData(res.data);
-        img = res.data.user.profilePicture;
-        f = `http://192.168.0.123:3000/image/` + img;
-        console.log(img);
+        console.log(userData);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -117,7 +115,14 @@ const Profile = ({ id }) => {
       <View style={styles.view}>
         <ImageBackground source={TestImg} style={styles.image}>
           <View style={styles.profileHeader}>
-            <Image source={DP} style={styles.profileImage} />
+            <Image
+              source={{
+                uri:
+                  "http://192.168.0.123:3000/image/" +
+                  userData.user?.profilePicture,
+              }}
+              style={styles.profileImage}
+            />
             <Text style={styles.profileName}>{userData.user?.name}</Text>
             <Recorder toggleList={toggleList} />
           </View>
