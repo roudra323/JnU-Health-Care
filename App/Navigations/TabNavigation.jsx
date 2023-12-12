@@ -7,7 +7,9 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
-const TabNavigation = ({ navigation }) => {
+const TabNavigation = ({ navigation, route }) => {
+  const { id } = route.params;
+  console.log("TabNavigation", id);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -27,7 +29,7 @@ const TabNavigation = ({ navigation }) => {
     >
       <Tab.Screen
         name="Home"
-        component={Home}
+        children={() => <Home id={id} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" size={size} color={color} />
@@ -45,7 +47,7 @@ const TabNavigation = ({ navigation }) => {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        children={() => <Profile id={id} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="user" size={size} color={color} />

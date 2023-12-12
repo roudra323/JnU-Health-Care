@@ -19,6 +19,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     RMedium: require("./assets/fonts/Roboto-Medium.ttf"),
     HindiSili: require("./assets/fonts/HindSiliguri-Regular.ttf"),
+    HindiSiliBold: require("./assets/fonts/HindSiliguri-Bold.ttf"),
   });
 
   const onLayoutRootView = useCallback(async () => {

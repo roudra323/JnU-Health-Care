@@ -5,7 +5,7 @@ const ArticleCard = ({ key, title, content, author }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
-      <Text style={styles.author}>Author: {author}</Text>
+      <Text style={styles.author}>লেখক: {author}</Text>
       <Text style={styles.content}>{content}</Text>
     </View>
   );
@@ -30,11 +30,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 5,
+    fontFamily: "HindiSiliBold",
   },
   content: {
     fontSize: 16,
     color: "#555",
     marginBottom: 8,
+    fontFamily: "HindiSili",
   },
   author: {
     fontSize: 14,

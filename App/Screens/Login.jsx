@@ -42,6 +42,7 @@ export default function Login({ navigation }) {
   };
 
   const loginData = async () => {
+    // navigation.navigate("Tab");
     try {
       // Validate email and password
       if (!email || !password) {
@@ -59,12 +60,20 @@ export default function Login({ navigation }) {
         password: password,
       });
 
+      ///For testing purpose
+      console.log("Response:", res.data);
+      const res1 = await client.get(`/profile/${res.data.id}`);
+      console.log("Response profile:", res1.data);
       // Check the response status or data for successful login
       if (res.status === 200) {
         console.log("Login successful");
         showAlert("success", "Login successful");
         setTimeout(() => {
-          navigation.navigate("Tab");
+          setEmail("");
+          setPassword("");
+          navigation.navigate("Tab", {
+            id: res.data.id,
+          });
         }, 500); // Add a small delay before navigation
       } else {
         console.log("Login failed. Please check your credentials.");
@@ -97,7 +106,7 @@ export default function Login({ navigation }) {
           <Image source={TestImg} style={{ width: 350, height: 200 }} />
           <Text
             style={{
-              fontFamily: "HindiSili",
+              fontFamily: "HindiSiliBold",
               fontSize: 28,
               fontWeight: "500",
               color: "#333",
@@ -135,7 +144,6 @@ export default function Login({ navigation }) {
             />
           }
           inputType="password"
-          fieldButtonLabel={"ভুলে গিয়েছেন?"}
           fieldButtonFunction={() => {}}
           value={password}
           onChangeText={(password) => setPassword(password)}

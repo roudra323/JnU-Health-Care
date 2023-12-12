@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function InputField({
   label,
@@ -11,6 +12,12 @@ export default function InputField({
   value,
   onChangeText,
 }) {
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisibility(!isPasswordVisible);
+  };
+
   return (
     <View
       style={{
@@ -23,14 +30,24 @@ export default function InputField({
     >
       {icon}
       {inputType === "password" ? (
-        <TextInput
-          placeholder={label}
-          keyboardType={keyboardType}
-          style={{ flex: 1, paddingVertical: 0 }}
-          secureTextEntry={true}
-          value={value}
-          onChangeText={onChangeText}
-        />
+        <>
+          <TextInput
+            placeholder={label}
+            keyboardType={keyboardType}
+            style={{ flex: 1, paddingVertical: 0 }}
+            secureTextEntry={!isPasswordVisible}
+            value={value}
+            onChangeText={onChangeText}
+          />
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Ionicons
+              name={isPasswordVisible ? "eye-off" : "eye"}
+              size={20}
+              color="#666"
+              style={{ marginLeft: 5 }}
+            />
+          </TouchableOpacity>
+        </>
       ) : (
         <TextInput
           placeholder={label}
@@ -40,11 +57,13 @@ export default function InputField({
           onChangeText={onChangeText}
         />
       )}
-      <TouchableOpacity onPress={fieldButtonFunction}>
-        <Text style={{ color: "#2955c6", fontWeight: "700" }}>
-          {fieldButtonLabel}
-        </Text>
-      </TouchableOpacity>
+      {fieldButtonLabel && (
+        <TouchableOpacity onPress={fieldButtonFunction}>
+          <Text style={{ color: "#2955c6", fontWeight: "700" }}>
+            {fieldButtonLabel}
+          </Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
