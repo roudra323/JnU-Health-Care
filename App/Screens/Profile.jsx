@@ -34,15 +34,15 @@ const Profile = ({ stuData }) => {
   ];
 
   const customFieldNames = {
-    batch: "Batch",
-    bloodGroup: "Blood Group",
-    date: "Registration Date",
-    dept: "Department",
-    email: "Email",
-    name: "Full Name",
-    phone: "Phone Number",
+    batch: "ব্যাচ",
+    bloodGroup: "রক্তের গ্রুপ",
+    date: "যোগদানের তারিখ",
+    dept: "বিভাগ",
+    email: "ই-মেইল",
+    name: "নাম",
+    phone: "মোবাইল নং",
     password: "Password",
-    presentAddress: "Present Address",
+    presentAddress: "বর্তমান ঠিকানা",
     profilePicture: "Profile Picture",
   };
 
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontFamily: "HindiSiliBold",
     color: "#333",
     paddingTop: 10,
   },
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
   },
   fieldLabel: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "HindiSiliBold",
     color: "#333",
     paddingBottom: 1,
   },
