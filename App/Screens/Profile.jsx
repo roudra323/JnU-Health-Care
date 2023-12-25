@@ -17,7 +17,7 @@ import DP from "../../assets/dp.png";
 import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
 
-const Profile = ({ id }) => {
+const Profile = ({ stuData }) => {
   let img;
   let f;
   const [userData, setUserData] = useState({});
@@ -96,19 +96,10 @@ const Profile = ({ id }) => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Make the GET request to fetch user data
-        const res = await client.get(`/profile/${id}`);
-        setUserData(res.data);
-        console.log(userData);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      }
-    };
-
-    fetchData();
-  }, [id]);
+    const res = stuData;
+    console.log("Profile data", res);
+    setUserData(res);
+  }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -118,7 +109,7 @@ const Profile = ({ id }) => {
             <Image
               source={{
                 uri:
-                  "http://192.168.0.123:3000/image/" +
+                  "http://192.168.0.106:3000/image/" +
                   userData.user?.profilePicture,
               }}
               style={styles.profileImage}

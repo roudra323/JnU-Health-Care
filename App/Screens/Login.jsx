@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
       ///For testing purpose
       console.log("Response:", res.data);
       const res1 = await client.get(`/profile/${res.data.id}`);
-      console.log("Response profile:", res1.data);
+      console.log("Response profile (from login):", res1.data);
       // Check the response status or data for successful login
       if (res.status === 200) {
         console.log("Login successful");
@@ -72,7 +72,7 @@ export default function Login({ navigation }) {
           setEmail("");
           setPassword("");
           navigation.navigate("Tab", {
-            id: res.data.id,
+            stuData: res1.data,
           });
         }, 500); // Add a small delay before navigation
       } else {

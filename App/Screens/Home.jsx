@@ -19,9 +19,10 @@ import Wave from "../../assets/waveHome.png";
 import DoctorCard from "../Components/DoctorCard";
 import { useNavigation } from "@react-navigation/native";
 
-const Home = ({ id }) => {
+const Home = ({ stuData }) => {
+  const stuID = stuData;
   const navigation = useNavigation();
-  console.log("Home", id);
+  console.log("Home data", stuData);
   const [isListExpanded, setIsListExpanded] = useState(false);
   const toggleList = () => {
     setIsListExpanded(!isListExpanded);
@@ -61,7 +62,9 @@ const Home = ({ id }) => {
           <View style={styles.boxContainer}>
             <View
               style={styles.box}
-              onStartShouldSetResponder={() => navigation.navigate("Form")}
+              onStartShouldSetResponder={() =>
+                navigation.navigate("Form", { stuData: stuID })
+              }
             >
               <MaterialCommunityIcons
                 name="book-clock"
@@ -93,9 +96,7 @@ const Home = ({ id }) => {
 
             <View
               style={styles.box}
-              onStartShouldSetResponder={() =>
-                Alert.alert("OnPress", "Clicked on View")
-              }
+              onStartShouldSetResponder={() => navigation.navigate("Contact")}
             >
               <Feather name="phone-forwarded" size={40} color="black" />
               <Text style={styles.boxText}>যোগাযোগ</Text>

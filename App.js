@@ -12,7 +12,7 @@ import * as SplashScreen from "expo-splash-screen";
 import TabNavigation from "./App/Navigations/TabNavigation";
 import Articles from "./App/Screens/Articles";
 import DoctorsScreen from "./App/Screens/Doctors";
-
+import Contact from "./App/Screens/Contact";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -87,6 +87,15 @@ export default function App() {
           <Stack.Screen
             name="DoctorList"
             component={DoctorsScreen}
+            options={{
+              headerStyle: { backgroundColor: "#fff" },
+              headerShadowVisible: false,
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Contact"
+            component={Contact}
             options={{
               headerStyle: { backgroundColor: "#fff" },
               headerShadowVisible: false,

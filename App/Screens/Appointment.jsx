@@ -29,7 +29,6 @@ const Appointment = ({ navigation }) => {
       subText: "December 15, 2023",
       doctorImage: require("../../assets/doctor.jpg"),
     },
-    // Add more dummy data as needed
   ];
   return (
     <ScrollView style={styles.container}>

@@ -8,8 +8,8 @@ import { FontAwesome } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 const TabNavigation = ({ navigation, route }) => {
-  const { id } = route.params;
-  console.log("TabNavigation", id);
+  const { stuData } = route.params;
+  console.log("TabNavigation", stuData);
   return (
     <Tab.Navigator
       screenOptions={{
@@ -29,7 +29,7 @@ const TabNavigation = ({ navigation, route }) => {
     >
       <Tab.Screen
         name="Home"
-        children={() => <Home id={id} />}
+        children={() => <Home stuData={stuData} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <AntDesign name="home" size={size} color={color} />
@@ -47,7 +47,7 @@ const TabNavigation = ({ navigation, route }) => {
       />
       <Tab.Screen
         name="Profile"
-        children={() => <Profile id={id} />}
+        children={() => <Profile stuData={stuData} />}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Feather name="user" size={size} color={color} />

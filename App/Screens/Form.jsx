@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,18 +6,31 @@ import {
   ScrollView,
   TextInput,
   Button,
+  ImageBackground,
+  Pressable,
 } from "react-native";
 
+import Wave from "../../assets/waveHome.png";
+import { FontAwesome5 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
+import Recorder from "../Components/Recorder/Recorder";
+import Expand from "../Components/Recorder/Expand";
+import client from "../api/client";
 
-const CounselingForm = () => {
+const CounselingForm = ({ route, navigation }) => {
+  const [isListExpanded, setIsListExpanded] = useState(false);
+  const toggleList = () => {
+    setIsListExpanded(!isListExpanded);
+  };
+  const { stuData } = route.params;
+  console.log("CounselingForm", stuData);
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");
   const [mobile, setMobile] = useState("");
   const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date()); // Add this line to initialize the date state
 
   const [takenBefore, setTakenBefore] = useState(false);
   const [heradAboutUs, setHeradAboutUs] = useState([
@@ -248,68 +261,152 @@ const CounselingForm = () => {
     // TODO: Submit the form data to the server
   };
 
+  // ...
+
+  const fetchUser = async () => {
+    setName(stuData.user?.name);
+    setDepartment(stuData.user?.dept);
+    setMobile(stuData.user?.phone);
+    setAge(24);
+    setEmail(stuData.user?.email);
+    setAddress(stuData.user?.presentAddress);
+    setDate(new Date()); // Set the date to the current date
+  };
+
+  const getDynamicStyle = (text) => {
+    let marginRight = 300; // default margin
+    if (text.length <= 4) {
+      marginRight = 305;
+    } else if (text.length > 10) {
+      marginRight = 240; // increase margin for longer text
+    }
+
+    return {
+      marginTop: 5,
+      fontSize: 13,
+      marginBottom: -7,
+      fontFamily: "HindiSiliBold",
+      marginLeft: 10,
+
+      borderColor: "#000",
+      borderWidth: 1,
+      marginRight: marginRight,
+      borderRadius: 10,
+      backgroundColor: "#ececec",
+      zIndex: 55,
+      textAlign: "center",
+      textAlignVertical: "center",
+    };
+  };
+
+  function formatDate(date) {
+    const day = ("0" + date.getDate()).slice(-2);
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <ScrollView>
-      <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <ImageBackground source={Wave} style={styles.image}>
+        <View style={styles.header}>
+          <FontAwesome5
+            name="arrow-left"
+            size={24}
+            color="black"
+            style={{ paddingLeft: 20 }}
+            onPress={() => navigation.goBack()}
+          />
+          <Recorder toggleList={toggleList} />
+        </View>
+
         <Text
           style={{
             textAlign: "center",
-            fontWeight: "bold",
             fontSize: 28,
             padding: 10,
             marginBottom: 30,
+            marginHorizontal: 20,
             borderColor: "#000",
             borderWidth: 2,
             borderRadius: 10,
-            backgroundColor: "#ececec",
+            backgroundColor: "white",
+            fontFamily: "HindiSiliBold",
+            marginTop: -40,
           }}
         >
-          Counseling Center{"\n"}Registration Form
+          কাউন্সেলিং সেন্টার{"\n"} রেজিস্ট্রেশন ফর্ম
         </Text>
+      </ImageBackground>
 
-        <TextInput
+      {isListExpanded && <Expand />}
+
+      <View style={styles.formContainer}>
+        {/* <TextInput
           style={styles.input}
           placeholder="Name"
           value={name}
           onChangeText={(text) => setName(text)}
-        />
+        /> */}
+        <View>
+          <Text style={getDynamicStyle("নাম")}>নাম</Text>
+          <Text style={styles.input}>{name}</Text>
 
-        <TextInput
+          {/* <TextInput
           style={styles.input}
           placeholder="Mobile"
           value={mobile}
           onChangeText={(text) => setMobile(text)}
-        />
+        /> */}
+          <Text style={getDynamicStyle("মোবাইল")}>মোবাইল</Text>
+          <Text style={styles.input}>{mobile}</Text>
 
-        <TextInput
+          {/* <TextInput
           style={styles.input}
           placeholder="Age"
           value={age}
           onChangeText={(text) => setAge(text)}
           keyboardType="numeric"
-        />
+        /> */}
+          <Text style={getDynamicStyle("বয়স")}>বয়স</Text>
+          <Text style={styles.input}>{age}</Text>
 
-        <TextInput
+          {/* <TextInput
           style={styles.input}
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           keyboardType="email-address"
-        />
+        /> */}
+          <Text style={getDynamicStyle("বিভাগ")}>বিভাগ</Text>
+          <Text style={styles.input}>{department}</Text>
 
-        <TextInput
+          <Text style={getDynamicStyle("Email")}>ই-মেইল</Text>
+          <Text style={styles.input}>{email}</Text>
+
+          {/* <TextInput
           style={styles.input}
           placeholder="Address"
           value={address}
           onChangeText={(text) => setAddress(text)}
-        />
+        /> */}
+          <Text style={getDynamicStyle("বর্তমান ঠিকানা")}>বর্তমান ঠিকানা</Text>
+          <Text style={styles.input}>{address}</Text>
 
-        <TextInput
+          {/* <TextInput
           style={styles.input}
           placeholder="Date"
           value={date}
           onChangeText={(text) => setDate(text)}
-        />
+        /> */}
+          <Text style={getDynamicStyle("তারিখ")}>তারিখ</Text>
+          <Text style={styles.input}>{formatDate(date)}</Text>
+        </View>
 
         <Text style={styles.subtitle}>
           আপনার ক্ষেত্রে প্রযোজ্য বিষয়গুলোর পাশে টিক দিনঃ
@@ -394,20 +491,79 @@ const CounselingForm = () => {
           </View>
         ))}
 
-        <Button title="Submit" onPress={handleSubmit} />
+        {/* <Button
+          title="Submit"
+          onPress={handleSubmit}
+          fontFamily="HindiSili"
+          borderRadius="10"
+          backgroundColor="#ececec "
+          padding="10"
+        /> */}
+
+        <Pressable style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.text}>সাবমিট</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  subText: {
+    fontSize: 13,
+    marginBottom: -7,
+    fontFamily: "HindiSili",
+    marginLeft: 10,
+    paddingHorizontal: 10,
+    borderColor: "#000",
+    borderWidth: 1,
+    marginRight: 300,
+    borderRadius: 10,
+    backgroundColor: "white",
+    zIndex: 55,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 20,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "black",
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontFamily: "HindiSili",
+    letterSpacing: 0.25,
+    color: "white",
+  },
   container: {
-    padding: 20,
+    flex: 1,
+    backgroundColor: "#ffffff",
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center",
+    height: "100%",
+    width: "100%",
+  },
+  header: {
+    alignItems: "center",
+    marginBottom: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 100,
+  },
+  formContainer: {
+    marginVertical: 20,
+    marginHorizontal: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
     marginBottom: 20,
+    fontFamily: "HindiSiliBold",
   },
   input: {
     height: 40,
@@ -415,13 +571,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 10,
+    paddingTop: 10,
     borderRadius: 5,
+    zIndex: 1,
   },
   subtitle: {
     fontSize: 18,
     marginTop: 10,
     marginBottom: 10,
-    fontWeight: "bold",
+    fontFamily: "HindiSiliBold",
   },
   checkboxContainer: {
     flexDirection: "row",
@@ -431,7 +589,7 @@ const styles = StyleSheet.create({
   checkboxText: {
     marginLeft: 10,
     fontSize: 18, // Optional: Adjust the font size as needed
-    color: "black", // Optional: Adjust the text color
+    fontFamily: "HindiSili", // Optional: Adjust the text color
   },
   otherProblemInput: {
     height: 100, // Adjust the height as needed
