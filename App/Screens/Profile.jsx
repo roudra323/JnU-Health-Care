@@ -16,6 +16,7 @@ import TestImg from "../../assets/wave1.jpg";
 import DP from "../../assets/dp.png";
 import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const Profile = ({ stuData }) => {
   let img;
@@ -95,6 +96,16 @@ const Profile = ({ stuData }) => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
+  const checkField = (field, value) => {
+    if (field === "password") {
+      return "********";
+    } else if (field === "date") {
+      return formatRegistrationDate(value);
+    } else {
+      return value;
+    }
+  };
+
   useEffect(() => {
     const res = stuData;
     console.log("Profile data", res);
@@ -137,8 +148,16 @@ const Profile = ({ stuData }) => {
                       {customFieldNames[field]}
                     </Text>
                     <Text style={styles.fieldValue}>
-                      {field === "date" ? formatRegistrationDate(value) : value}
+                      {checkField(field, value)}
                     </Text>
+                    {editableFields.includes(field) && (
+                      <Icon
+                        name="pencil"
+                        size={15}
+                        color="#000"
+                        style={styles.iconStyle}
+                      />
+                    )}
                   </View>
                 </TouchableOpacity>
               ))}
@@ -174,6 +193,14 @@ const styles = StyleSheet.create({
   },
   view: {
     marginBottom: 100,
+  },
+
+  iconStyle: {
+    position: "absolute",
+    right: 0,
+    // Adjust these as needed
+    top: "90%",
+    transform: [{ translateY: -15 }], // Half the icon size
   },
 
   profileHeader: {
@@ -226,21 +253,26 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    borderWidth: 2.5,
+    borderRadius: 10,
+    marginHorizontal: 30,
+    marginVertical: 200,
+    backgroundColor: "white",
   },
   modalInput: {
-    width: 200,
-    height: 40,
-    borderWidth: 1,
+    width: 300,
+    height: 50,
+    borderWidth: 1.5,
     borderColor: "#ddd",
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 15,
     paddingHorizontal: 10,
     backgroundColor: "#fff",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    borderRadius: 10,
     width: "40%",
   },
 });

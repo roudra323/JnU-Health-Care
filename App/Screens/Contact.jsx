@@ -48,8 +48,12 @@ const Contact = () => {
             জগন্নাথ বিশ্ববিদ্যালয় {"\n"} কাউন্সেলিং সেন্টার
           </Text>
         </View>
-        {/* Add the image component */}
-        <Text style={styles.title}>যোগাযোগ</Text>
+        <View>
+          <Text style={styles.title}>
+            " সুস্থ মন সুস্থ জীবন, গড়ে তুলি সুন্দর ভুবন "
+          </Text>
+        </View>
+        <Text style={styles.footerText}>যোগাযোগ</Text>
         <View style={styles.contactSection}>
           <Text style={styles.label}>মোবাইল নং :</Text>
           <Text style={styles.contactInfo} onPress={handlePress}>
@@ -87,6 +91,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: "HindiSiliBold",
   },
+  footerText: {
+    fontSize: 24,
+    marginTop: 100,
+    marginBottom: 10,
+    fontFamily: "HindiSiliBold",
+  },
   contactSection: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -106,7 +116,7 @@ const styles = StyleSheet.create({
     width: 200,
     height: 400,
     marginBottom: 10,
-    marginTop: -80,
+    marginTop: -120,
     alignSelf: "center",
   },
   logoText: {
