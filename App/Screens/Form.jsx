@@ -9,7 +9,7 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-
+import { useGlobalContext } from "../context";
 import Wave from "../../assets/waveHome.png";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
@@ -18,11 +18,14 @@ import Expand from "../Components/Recorder/Expand";
 import client from "../api/client";
 
 const CounselingForm = ({ route, navigation }) => {
+  const { user, setUser } = useGlobalContext();
   const [isListExpanded, setIsListExpanded] = useState(false);
   const toggleList = () => {
     setIsListExpanded(!isListExpanded);
   };
-  const { stuData } = route.params;
+  console.log("CounselingForm context", user);
+  // const { stuData } = route.params;
+  const stuData = user;
   console.log("CounselingForm", stuData);
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");

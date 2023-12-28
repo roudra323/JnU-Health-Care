@@ -19,8 +19,10 @@ import TestImg from "../../assets/login.jpg";
 import client from "../api/client";
 
 import Toast from "react-native-toast-message";
+import { useGlobalContext } from "../context";
 
 export default function Login({ navigation }) {
+  const { user, setUser } = useGlobalContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRegex = /^([\w.]+)@([\w.]+)\.jnu\.ac\.bd$/;
@@ -62,7 +64,9 @@ export default function Login({ navigation }) {
 
       ///For testing purpose
       console.log("Response:", res.data);
+
       const res1 = await client.get(`/profile/${res.data.id}`);
+      setUser(res1.data);
       console.log("Response profile (from login):", res1.data);
       // Check the response status or data for successful login
       if (res.status === 200) {

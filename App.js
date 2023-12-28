@@ -13,6 +13,7 @@ import TabNavigation from "./App/Navigations/TabNavigation";
 import Articles from "./App/Screens/Articles";
 import DoctorsScreen from "./App/Screens/Doctors";
 import Contact from "./App/Screens/Contact";
+import { GlobalProvider } from "./App/context";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -34,7 +35,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <GlobalProvider>
       <NavigationContainer onLayout={onLayoutRootView}>
         <StatusBar hidden />
         <Stack.Navigator initialRouteName="Login">
@@ -105,7 +106,7 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
       <Toast />
-    </>
+    </GlobalProvider>
   );
 }
 
