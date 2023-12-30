@@ -4,32 +4,38 @@ import {
   StyleSheet,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useGlobalContext } from "../context";
 import DoctorCard from "../Components/DoctorCard";
 import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
 import { FontAwesome5 } from "@expo/vector-icons";
 import Wave from "../../assets/waveHome.png";
+import client from "../api/client";
+
 const Appointment = ({ navigation }) => {
+  // console.log("Appointment data", updateD);
+  const { user, appointmentArr, setAppointmentArr, data } = useGlobalContext();
+  const stuID = user.user._id;
+  // const [update, setUpdate] = useState(false);
+
   const [isListExpanded, setIsListExpanded] = useState(false);
   const toggleList = () => {
     setIsListExpanded(!isListExpanded);
   };
-  const dummyDoctorData = [
-    {
-      id: 1,
-      doctorInfo: "Dr. Smith",
-      subText: "December 10, 2023",
-      doctorImage: require("../../assets/doctor.jpg"),
-    },
-    {
-      id: 2,
-      doctorInfo: "Dr. Johnson",
-      subText: "December 15, 2023",
-      doctorImage: require("../../assets/doctor.jpg"),
-    },
-  ];
+
+  const pendingAppointments = appointmentArr
+    ? appointmentArr.filter((appointment) => appointment.status === "pending")
+    : [];
+
+  const completedAppointments = appointmentArr
+    ? appointmentArr.filter((appointment) => appointment.status === "completed")
+    : [];
+
+  console.log(appointmentArr);
+
   return (
     <ScrollView style={styles.container}>
       <ImageBackground source={Wave} style={styles.image}>
@@ -48,27 +54,47 @@ const Appointment = ({ navigation }) => {
       <View style={{ marginBottom: 50 }}>
         <Text style={styles.subtext}>আসন্ন অ্যাপয়েন্টমেন্ট</Text>
 
-        {/* Map through the dummy doctor data and render DoctorCard components */}
-        {dummyDoctorData.map((doctor) => (
-          <DoctorCard
-            key={doctor.id}
-            doctorInfo={doctor.doctorInfo}
-            subText={doctor.subText}
-            doctorImage={doctor.doctorImage}
-          />
+        {/* Map through the pending appointments and render DoctorCard components */}
+        {pendingAppointments.map((appointment) => (
+          <TouchableOpacity
+            key={appointment._id}
+            onPress={() =>
+              navigation.navigate("AppointmentDetails", {
+                appointmentDetails: appointment,
+                isDlt: true,
+              })
+            }
+          >
+            <DoctorCard
+              key={appointment._id}
+              doctorInfo={appointment.counselingType.join(" / ")}
+              subText={appointment.counselingDay.join(" / ")}
+              doctorImage={require("../../assets/doctor.jpg")}
+            />
+          </TouchableOpacity>
         ))}
       </View>
       <View style={{ marginBottom: 50 }}>
         <Text style={styles.subtext}>সম্পন্ন অ্যাপয়েন্টমেন্ট</Text>
 
-        {/* Map through the dummy doctor data and render DoctorCard components */}
-        {dummyDoctorData.map((doctor) => (
-          <DoctorCard
-            key={doctor.id}
-            doctorInfo={doctor.doctorInfo}
-            subText={doctor.subText}
-            doctorImage={doctor.doctorImage}
-          />
+        {/* Map through the completed appointments and render DoctorCard components */}
+        {completedAppointments.map((appointment) => (
+          <TouchableOpacity
+            key={appointment._id}
+            onPress={() =>
+              navigation.navigate("AppointmentDetails", {
+                appointmentDetails: appointment,
+                isDlt: false,
+              })
+            }
+          >
+            <DoctorCard
+              key={appointment._id}
+              doctorInfo={appointment.counselingType.join(" / ")}
+              subText={appointment.counselingDay.join(" / ")}
+              doctorImage={require("../../assets/doctor.jpg")}
+            />
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>

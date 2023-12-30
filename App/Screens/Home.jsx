@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -18,9 +18,12 @@ import { Feather } from "@expo/vector-icons";
 import Wave from "../../assets/waveHome.png";
 import DoctorCard from "../Components/DoctorCard";
 import { useNavigation } from "@react-navigation/native";
+import { useGlobalContext } from "../context";
+import client from "../api/client";
 
 const Home = ({ stuData }) => {
-  const stuID = stuData;
+  const { user, appointmentArr, setAppointmentArr, data } = useGlobalContext();
+  const stuID = user.user._id;
   const navigation = useNavigation();
   console.log("Home data", stuData);
   const [isListExpanded, setIsListExpanded] = useState(false);
@@ -28,21 +31,26 @@ const Home = ({ stuData }) => {
     setIsListExpanded(!isListExpanded);
   };
 
-  const dummyDoctorData = [
-    {
-      id: 1,
-      doctorInfo: "Dr. Smith",
-      subText: "December 10, 2023",
-      doctorImage: require("../../assets/doctor.jpg"),
-    },
-    {
-      id: 2,
-      doctorInfo: "Dr. Johnson",
-      subText: "December 15, 2023",
-      doctorImage: require("../../assets/doctor.jpg"),
-    },
-    // Add more dummy data as needed
-  ];
+  const fetchAppointment = async () => {
+    // console.log("Appointment data", stuID);
+    await client
+      .get(`/appointment/${stuID}`)
+      .then((res) => {
+        console.log("Appointment data", res.data);
+        setAppointmentArr(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchAppointment();
+  }, [data]);
+
+  const pendingAppointments = appointmentArr
+    ? appointmentArr.filter((appointment) => appointment.status === "pending")
+    : [];
 
   return (
     <ScrollView style={styles.container}>
@@ -106,14 +114,23 @@ const Home = ({ stuData }) => {
         <View style={{ marginBottom: 50 }}>
           <Text style={styles.subtext}>আসন্ন অ্যাপয়েন্টমেন্ট</Text>
 
-          {/* Map through the dummy doctor data and render DoctorCard components */}
-          {dummyDoctorData.map((doctor) => (
-            <DoctorCard
-              key={doctor.id}
-              doctorInfo={doctor.doctorInfo}
-              subText={doctor.subText}
-              doctorImage={doctor.doctorImage}
-            />
+          {pendingAppointments.map((appointment) => (
+            <TouchableOpacity
+              key={appointment._id}
+              onPress={() =>
+                navigation.navigate("AppointmentDetails", {
+                  appointmentDetails: appointment,
+                  isDlt: true,
+                })
+              }
+            >
+              <DoctorCard
+                key={appointment._id}
+                doctorInfo={appointment.counselingType.join(" / ")}
+                subText={appointment.counselingDay.join(" / ")}
+                doctorImage={require("../../assets/doctor.jpg")}
+              />
+            </TouchableOpacity>
           ))}
         </View>
       </View>

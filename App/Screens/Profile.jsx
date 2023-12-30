@@ -19,9 +19,8 @@ import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-const Profile = ({ stuData }) => {
+const Profile = () => {
   const { user, setUser, setAlert } = useGlobalContext();
-  const [image, setImage] = useState(null);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);

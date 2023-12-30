@@ -18,7 +18,14 @@ import Expand from "../Components/Recorder/Expand";
 import client from "../api/client";
 
 const CounselingForm = ({ route, navigation }) => {
-  const { user, setUser } = useGlobalContext();
+  const {
+    user,
+    setUser,
+    setAlert,
+    setAppointmentArr,
+    appointmentArr,
+    setData,
+  } = useGlobalContext();
   const [isListExpanded, setIsListExpanded] = useState(false);
   const toggleList = () => {
     setIsListExpanded(!isListExpanded);
@@ -232,7 +239,7 @@ const CounselingForm = ({ route, navigation }) => {
     setCounselingDay(newCounselingDay);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const formData = {
       name,
       department,
@@ -261,7 +268,27 @@ const CounselingForm = ({ route, navigation }) => {
         .map((day) => day.day),
     };
     console.log(JSON.stringify(formData));
-    // TODO: Submit the form data to the server
+
+    //submit to server
+    await client
+      .post(`/appointment/${user.user._id}`, formData)
+      .then((res) => {
+        setAlert({
+          on: true,
+          type: "success",
+          message: "আপনার ফর্মটি সাবমিট হয়েছে",
+        });
+        console.log(res.data);
+
+        setAppointmentArr([...appointmentArr, res.data]);
+        console.log("Appointment data", appointmentArr.length);
+        setData(appointmentArr.length);
+
+        navigation.navigate("Appointment");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   // ...
@@ -350,63 +377,25 @@ const CounselingForm = ({ route, navigation }) => {
       {isListExpanded && <Expand />}
 
       <View style={styles.formContainer}>
-        {/* <TextInput
-          style={styles.input}
-          placeholder="Name"
-          value={name}
-          onChangeText={(text) => setName(text)}
-        /> */}
         <View>
           <Text style={getDynamicStyle("নাম")}>নাম</Text>
           <Text style={styles.input}>{name}</Text>
 
-          {/* <TextInput
-          style={styles.input}
-          placeholder="Mobile"
-          value={mobile}
-          onChangeText={(text) => setMobile(text)}
-        /> */}
           <Text style={getDynamicStyle("মোবাইল")}>মোবাইল</Text>
           <Text style={styles.input}>{mobile}</Text>
 
-          {/* <TextInput
-          style={styles.input}
-          placeholder="Age"
-          value={age}
-          onChangeText={(text) => setAge(text)}
-          keyboardType="numeric"
-        /> */}
           <Text style={getDynamicStyle("বয়স")}>বয়স</Text>
           <Text style={styles.input}>{age}</Text>
 
-          {/* <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => setEmail(text)}
-          keyboardType="email-address"
-        /> */}
           <Text style={getDynamicStyle("বিভাগ")}>বিভাগ</Text>
           <Text style={styles.input}>{department}</Text>
 
           <Text style={getDynamicStyle("Email")}>ই-মেইল</Text>
           <Text style={styles.input}>{email}</Text>
 
-          {/* <TextInput
-          style={styles.input}
-          placeholder="Address"
-          value={address}
-          onChangeText={(text) => setAddress(text)}
-        /> */}
           <Text style={getDynamicStyle("বর্তমান ঠিকানা")}>বর্তমান ঠিকানা</Text>
           <Text style={styles.input}>{address}</Text>
 
-          {/* <TextInput
-          style={styles.input}
-          placeholder="Date"
-          value={date}
-          onChangeText={(text) => setDate(text)}
-        /> */}
           <Text style={getDynamicStyle("তারিখ")}>তারিখ</Text>
           <Text style={styles.input}>{formatDate(date)}</Text>
         </View>
@@ -493,16 +482,6 @@ const CounselingForm = ({ route, navigation }) => {
             <Text style={styles.checkboxText}>{source.name}</Text>
           </View>
         ))}
-
-        {/* <Button
-          title="Submit"
-          onPress={handleSubmit}
-          fontFamily="HindiSili"
-          borderRadius="10"
-          backgroundColor="#ececec "
-          padding="10"
-        /> */}
-
         <Pressable style={styles.button} onPress={handleSubmit}>
           <Text style={styles.text}>সাবমিট</Text>
         </Pressable>

@@ -7,7 +7,9 @@ export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   //set type to success or error
   //set message to display
+  const [data, setData] = useState(0); // [ {type: "success", message: "Appointment created successfully"}
   const [alert, setAlert] = useState({ on: false, type: "", message: "" });
+  const [appointmentArr, setAppointmentArr] = useState([]);
   console.log("Alert:", alert);
 
   const showAlert = (type, message) => {
@@ -31,10 +33,14 @@ export const GlobalProvider = ({ children }) => {
         user,
         setUser,
         setAlert,
+        setAppointmentArr,
+        appointmentArr,
+        data,
+        setData,
       }}
     >
       {console.log("Loaded")}
-      {console.log("From context", user)}
+      {console.log("From context Appoinrment data", data)}
       {children}
     </GlobalContext.Provider>
   );
