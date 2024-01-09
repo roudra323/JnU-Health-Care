@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { Fontisto } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import InputField from "../Components/InputField";
 import CustomButton from "../Components/CustomButton";
@@ -19,6 +20,7 @@ import Toast from "react-native-toast-message";
 export default function Registration({ navigation }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [dob, setDob] = useState("");
   const [presentAddress, setPresentAddress] = useState("");
   const [dept, setDept] = useState("");
   const [batch, setBatch] = useState("");
@@ -67,6 +69,7 @@ export default function Registration({ navigation }) {
       const res = await client.post("/auth/signup", {
         name,
         phone,
+        dob,
         presentAddress,
         dept,
         batch,
@@ -76,7 +79,10 @@ export default function Registration({ navigation }) {
       });
 
       if (res.status === 200) {
-        showAlert("success", "Registration successful");
+        showAlert(
+          "success",
+          "আপনার ইমেইলে একটি লিঙ্ক পাঠানো হয়েছে। লিঙ্কে ক্লিক করে আপনার ইমেইল ভেরিফাই করুন।"
+        );
         navigation.navigate("Login");
       } else {
         showAlert("error", "Registration failed. Please try again.");
@@ -98,7 +104,7 @@ export default function Registration({ navigation }) {
             />
             <Text
               style={{
-                fontFamily: "RMedium",
+                fontFamily: "HindiSiliBold",
                 fontSize: 28,
                 fontWeight: "500",
                 color: "#333",
@@ -106,12 +112,12 @@ export default function Registration({ navigation }) {
                 paddingTop: 50,
               }}
             >
-              Registration
+              রেজিস্ট্রেশন
             </Text>
           </View>
 
           <InputField
-            label={"Name"}
+            label={"নাম"}
             icon={
               <MaterialIcons
                 name="edit"
@@ -127,7 +133,7 @@ export default function Registration({ navigation }) {
           />
 
           <InputField
-            label={"Phone Number"}
+            label={"মোবাইল নাম্বার"}
             icon={
               <MaterialIcons
                 name="phone"
@@ -143,7 +149,23 @@ export default function Registration({ navigation }) {
           />
 
           <InputField
-            label={"Present Address"}
+            label={"জন্ম তারিখ (DD-MM-YYYY)"}
+            icon={
+              <AntDesign
+                name="calendar"
+                size={20}
+                color="black"
+                style={{ marginRight: 5 }}
+              />
+            }
+            keyboardType="number-pad"
+            value={dob}
+            onChangeText={(dob) => setDob(dob)}
+            required={true}
+          />
+
+          <InputField
+            label={"বর্তমান ঠিকানা"}
             icon={
               <MaterialIcons
                 name="home"
@@ -159,7 +181,7 @@ export default function Registration({ navigation }) {
           />
 
           <InputField
-            label={"Department"}
+            label={"বিভাগ"}
             icon={
               <MaterialIcons
                 name="school"
@@ -175,7 +197,7 @@ export default function Registration({ navigation }) {
           />
 
           <InputField
-            label={"Batch"}
+            label={"ব্যাচ"}
             icon={
               <MaterialIcons
                 name="school"
@@ -190,7 +212,7 @@ export default function Registration({ navigation }) {
             required={true}
           />
           <InputField
-            label={"Blood Group"}
+            label={"রক্তের গ্রুপ"}
             icon={
               <Fontisto
                 name="blood-drop"
@@ -205,7 +227,7 @@ export default function Registration({ navigation }) {
             required={true}
           />
           <InputField
-            label={"Email ID"}
+            label={"ইমেইল"}
             icon={
               <MaterialIcons
                 name="alternate-email"
@@ -221,7 +243,7 @@ export default function Registration({ navigation }) {
           />
 
           <InputField
-            label={"Password"}
+            label={"পাসওয়ার্ড"}
             icon={
               <Ionicons
                 name="ios-lock-closed-outline"
@@ -237,7 +259,7 @@ export default function Registration({ navigation }) {
             required={true}
           />
 
-          <CustomButton label={"Register"} onPress={signUp} />
+          <CustomButton label={"রেজিস্টার"} onPress={signUp} />
         </View>
       </ScrollView>
     </SafeAreaView>

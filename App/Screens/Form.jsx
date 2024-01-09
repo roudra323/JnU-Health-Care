@@ -33,7 +33,7 @@ const CounselingForm = ({ route, navigation }) => {
   console.log("CounselingForm context", user);
   // const { stuData } = route.params;
   const stuData = user;
-  console.log("CounselingForm", stuData);
+  console.log("CounselingForm DATA ->", stuData);
   const [name, setName] = useState("");
   const [department, setDepartment] = useState("");
   const [mobile, setMobile] = useState("");
@@ -267,7 +267,7 @@ const CounselingForm = ({ route, navigation }) => {
         .filter((day) => day.checked)
         .map((day) => day.day),
     };
-    console.log(JSON.stringify(formData));
+    console.log("This is formData from form", JSON.stringify(formData));
 
     //submit to server
     await client
@@ -293,11 +293,27 @@ const CounselingForm = ({ route, navigation }) => {
 
   // ...
 
+  const calculateAge = (dob) => {
+    const dobArray = dob.split("-");
+    const dobDate = new Date(dobArray[2], dobArray[1] - 1, dobArray[0]);
+    const diffMs = Date.now() - dobDate.getTime();
+    const ageDt = new Date(diffMs);
+    return Math.abs(ageDt.getUTCFullYear() - 1970);
+  };
+
   const fetchUser = async () => {
     setName(stuData.user?.name);
     setDepartment(stuData.user?.dept);
     setMobile(stuData.user?.phone);
-    setAge(24);
+    // setAge(stuData.user?.dob);
+
+    // have to change this in the database
+    // const dob = "27-03-2001"; // replace this with the actual date of birth
+    const age = calculateAge(stuData.user?.dob);
+    setAge(age.toString());
+
+    // this ends here
+
     setEmail(stuData.user?.email);
     setAddress(stuData.user?.presentAddress);
     setDate(new Date()); // Set the date to the current date

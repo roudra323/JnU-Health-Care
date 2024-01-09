@@ -45,6 +45,7 @@ const Profile = () => {
     phone: "মোবাইল নং",
     password: "পাসওয়ার্ড",
     presentAddress: "বর্তমান ঠিকানা",
+    dob: "জন্ম তারিখ",
     profilePicture: "Profile Picture",
   };
 
@@ -239,7 +240,7 @@ const Profile = () => {
             >
               <Image
                 source={{
-                  uri: `http://192.168.0.103:3000/image/${user.user?.profilePicture}`,
+                  uri: `http://192.168.0.106:3000/image/${user.user?.profilePicture}`,
                 }}
                 style={styles.profileImage}
               />
@@ -267,7 +268,8 @@ const Profile = () => {
                 ([field]) =>
                   field !== "__v" &&
                   field !== "_id" &&
-                  field !== "profilePicture"
+                  field !== "profilePicture" &&
+                  field !== "verified"
               )
               .map(([field, value]) => (
                 <TouchableOpacity

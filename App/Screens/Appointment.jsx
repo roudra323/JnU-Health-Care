@@ -5,6 +5,7 @@ import {
   ScrollView,
   ImageBackground,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../context";
@@ -19,6 +20,7 @@ const Appointment = ({ navigation }) => {
   // console.log("Appointment data", updateD);
   const { user, appointmentArr, setAppointmentArr, data } = useGlobalContext();
   const stuID = user.user._id;
+  console.log("All appointment data", appointmentArr);
   // const [update, setUpdate] = useState(false);
 
   const [isListExpanded, setIsListExpanded] = useState(false);
@@ -26,18 +28,32 @@ const Appointment = ({ navigation }) => {
     setIsListExpanded(!isListExpanded);
   };
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const pendingAppointments = appointmentArr
     ? appointmentArr.filter((appointment) => appointment.status === "pending")
     : [];
 
   const completedAppointments = appointmentArr
-    ? appointmentArr.filter((appointment) => appointment.status === "completed")
+    ? appointmentArr.filter((appointment) => appointment.status === "confirmed")
     : [];
 
   console.log(appointmentArr);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <ImageBackground source={Wave} style={styles.image}>
         <View style={styles.header}>
           <FontAwesome5

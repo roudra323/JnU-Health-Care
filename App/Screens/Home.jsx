@@ -8,6 +8,7 @@ import {
   ImageBackground,
   ScrollView,
   Alert,
+  RefreshControl,
 } from "react-native";
 import Recorder from "../Components/Recorder/Recorder";
 import Expand from "../Components/Recorder/Expand";
@@ -31,6 +32,15 @@ const Home = ({ stuData }) => {
     setIsListExpanded(!isListExpanded);
   };
 
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   const fetchAppointment = async () => {
     // console.log("Appointment data", stuID);
     await client
@@ -53,7 +63,13 @@ const Home = ({ stuData }) => {
     : [];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.scrollView}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View>
         <ImageBackground source={Wave} style={styles.image}>
           <View style={styles.header}>

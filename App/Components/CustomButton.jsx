@@ -14,6 +14,7 @@ export default function CustomButton({ label, onPress }) {
     >
       <Text
         style={{
+          fontFamily: "HindiSiliBold",
           textAlign: "center",
           fontWeight: "700",
           fontSize: 16,
