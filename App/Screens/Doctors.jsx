@@ -73,15 +73,9 @@ const DoctorsScreen = ({ navigation }) => {
                 doctorInfo={doctor.name}
                 subText={doctor.email}
                 doctorImage={{
-                  uri: `http://192.168.0.103:3000/image/${doctor?.profilePicture}`,
+                  uri: `${process.env.EXPO_PUBLIC_API_URL}/image/${doctor?.profilePicture}`,
                 }}
               />
-              {/* <Image
-                source={{
-                  uri: `http://192.168.0.103:3000/image/${user.user?.profilePicture}`,
-                }}
-                style={styles.profileImage}
-              /> */}
             </TouchableOpacity>
           ))}
       </View>
@@ -104,7 +98,7 @@ const DoctorsScreen = ({ navigation }) => {
             <View>
               <Image
                 source={{
-                  uri: `http://192.168.0.106:3000/image/${selectedDoctor.profilePicture}`,
+                  uri: `${process.env.EXPO_PUBLIC_API_URL}/image/${selectedDoctor.profilePicture}`,
                 }}
                 style={styles.doctorImage}
               />
@@ -112,9 +106,6 @@ const DoctorsScreen = ({ navigation }) => {
               <Text style={styles.doctorAbout}>{selectedDoctor.about}</Text>
             </View>
           )}
-          {/* <TouchableOpacity onPress={closeEditModal}>
-            <Text>Close Modal</Text>
-          </TouchableOpacity> */}
         </View>
       </Modal>
     </ScrollView>
