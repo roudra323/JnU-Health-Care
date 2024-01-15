@@ -240,7 +240,7 @@ const Profile = () => {
             >
               <Image
                 source={{
-                  uri: `http://192.168.0.106:3000/image/${user.user?.profilePicture}`,
+                  uri: `${process.env.EXPO_PUBLIC_API_URL}/image/${user.user?.profilePicture}`,
                 }}
                 style={styles.profileImage}
               />
