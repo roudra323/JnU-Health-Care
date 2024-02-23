@@ -28,7 +28,7 @@ const TabNavigation = ({ navigation, route }) => {
       }}
     >
       <Tab.Screen
-        name="Home"
+        name="হোম"
         children={() => <Home stuData={stuData} />}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -37,7 +37,7 @@ const TabNavigation = ({ navigation, route }) => {
         }}
       />
       <Tab.Screen
-        name="Appointment"
+        name="অ্যাপয়েন্টমেন্ট"
         component={Appointment}
         options={{
           tabBarIcon: ({ color, size }) => (
@@ -46,7 +46,7 @@ const TabNavigation = ({ navigation, route }) => {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="প্রোফাইল"
         children={() => <Profile stuData={stuData} />}
         options={{
           tabBarIcon: ({ color, size }) => (
