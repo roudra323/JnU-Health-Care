@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "doctor-appointment",
+    "name": "JnU Counseling Center",
     "slug": "healthapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/iconM.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splashM.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
